@@ -1,0 +1,900 @@
+{
+	"info": {
+		"_postman_id": "45d3e188-6f30-460d-bc55-21fcf6073c54",
+		"name": "GuestBook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37885549"
+	},
+	"item": [
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "http://localhost/api/addComment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "default"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "eyJpdiI6IjlNbmcrZE5ld3lvdUY1dTdldHNjUnc9PSIsInZhbHVlIjoiQlpDV1NndFN3YzlEaVU4cG5GRUN4UThMUHlyTmIvMERmOXdZSnVlcXoxOVY4N0N0c0FtYkVjL3h3VGN6SVRDUWhxbUtvQjVYTDkweHhoc3haTDgxb3IrdURQQU1QMFo3MGpUaVZFTDBGVmRvUDRHd3loSkpXY2d4NkhwbU4zOGEiLCJtYWMiOiI4Y2IxYjNjZjA0OTI2Zjk5NDNjYzZkNGE0YzI0OTE3NmE5N2M0MWJmMWY4ZWI4YWNlNTRmOGRmODM0MGU0ZjI4IiwidGFnIjoiIn0",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"commentText\" : \"Комментарий номер 3!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/addComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"addComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/api/getComment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"commentId\" : \"2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/getComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"getComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/api/getCommentList/1",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/api/getCommentList/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"getCommentList",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/api/deleteComment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "eyJpdiI6Ikh4Rm03ZENnc0F2dU85TDRVQi9ndFE9PSIsInZhbHVlIjoicFNWYkZlZ3M0V0hHSm1nak1XbU1sT0tuQkx6RVNmdTNiSzEreG1jOUNVR3hoZ2lrUVhJcmw5U0ZFSVpDYnFsOE00RVdRMGVjbWF5azRZT0lVbnRsVWUvYmtFQ0RVSy9XRVF2MEttdHlLYUtsaldiWDBNSGxkbmtQZERRNHU3UHIiLCJtYWMiOiIyMTQ1NjI5MzQyMDJhYWViNzBjZTQ3YzdmMjc1MWJkM2IwMDIwNGFiZjZmMzZkOGEwODQwYzdiZGYyYzBlODVjIiwidGFnIjoiIn0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"commentId\" : \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/deleteComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"deleteComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/api/updateComment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "eyJpdiI6Ik15OEVvd0Nxa1dPWU1RMFJCaWQvdmc9PSIsInZhbHVlIjoiQjZ0WldTODlYQ213N2JkbnZRdHU2WWdUdUVkQnh3aGF5M1l1UnlFR2RGRUhwdFlTRnkzN3RIQUxsSXdvcVlpd0FkbG9nS0krU1RrMmdCM0EzV2x1WCszenlyMjk3SEdGVjk4RlJwbTdLeUdBSmRhLzRsWlNZMEJpZHlDVjh5d2ciLCJtYWMiOiJlMTA2YzM0NmM4ZGNmMDgyM2UwODY3ODlhZjk1M2JkYzE5OTNhZjJmZmRkMjNjNGUzYWE1ZmVjYzJkN2RkMmJhIiwidGFnIjoiIn0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"commentId\" : \"2\",\r\n    \"commentText\" : \"Новый текст комментария!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/updateComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"updateComment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CommentResponses",
+			"item": [
+				{
+					"name": "http://localhost/api/getResponseToComment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "eyJpdiI6IkpFcFhPNkZNSGpDa0c5OFZvRDh4QXc9PSIsInZhbHVlIjoiS3hIQWpmM3lXZXhDc0h0SGtlMlRaaXl4SlVsRmxMQTByekNZRWhnTENXMy9yeUlrWmQxK1ZpRTVHQzRGOXFJa2lMRkV6Tis4RmhXcmxMMnJwZ3RHNlNDeGp3dG8zeU9zQWo5UUNad2FybnFhWG80aHBSd3BTUmpneERYTEJqSzAiLCJtYWMiOiIyYzg5NzY1Y2ZmOThiMDdjMGRhMjZmNTY2YTQwZGM3OGQxNWQ5MGI3MmYyMmE0MDAyMjNiZjhmMWZhM2EwYmE2IiwidGFnIjoiIn0",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"responseId\" : \"5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/getResponseToComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"getResponseToComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/api/updateResponseToComment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "eyJpdiI6Ikh4Rm03ZENnc0F2dU85TDRVQi9ndFE9PSIsInZhbHVlIjoicFNWYkZlZ3M0V0hHSm1nak1XbU1sT0tuQkx6RVNmdTNiSzEreG1jOUNVR3hoZ2lrUVhJcmw5U0ZFSVpDYnFsOE00RVdRMGVjbWF5azRZT0lVbnRsVWUvYmtFQ0RVSy9XRVF2MEttdHlLYUtsaldiWDBNSGxkbmtQZERRNHU3UHIiLCJtYWMiOiIyMTQ1NjI5MzQyMDJhYWViNzBjZTQ3YzdmMjc1MWJkM2IwMDIwNGFiZjZmMzZkOGEwODQwYzdiZGYyYzBlODVjIiwidGFnIjoiIn0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"responseId\" : \"4\",\r\n    \"responseText\" : \"Новый текст!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/updateResponseToComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"updateResponseToComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/api/deleteResponseToComment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "eyJpdiI6Ikh4Rm03ZENnc0F2dU85TDRVQi9ndFE9PSIsInZhbHVlIjoicFNWYkZlZ3M0V0hHSm1nak1XbU1sT0tuQkx6RVNmdTNiSzEreG1jOUNVR3hoZ2lrUVhJcmw5U0ZFSVpDYnFsOE00RVdRMGVjbWF5azRZT0lVbnRsVWUvYmtFQ0RVSy9XRVF2MEttdHlLYUtsaldiWDBNSGxkbmtQZERRNHU3UHIiLCJtYWMiOiIyMTQ1NjI5MzQyMDJhYWViNzBjZTQ3YzdmMjc1MWJkM2IwMDIwNGFiZjZmMzZkOGEwODQwYzdiZGYyYzBlODVjIiwidGFnIjoiIn0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"responseId\" : \"4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/deleteResponseToComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"deleteResponseToComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/api/getCommentResponseList/1",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "eyJpdiI6IkpFcFhPNkZNSGpDa0c5OFZvRDh4QXc9PSIsInZhbHVlIjoiS3hIQWpmM3lXZXhDc0h0SGtlMlRaaXl4SlVsRmxMQTByekNZRWhnTENXMy9yeUlrWmQxK1ZpRTVHQzRGOXFJa2lMRkV6Tis4RmhXcmxMMnJwZ3RHNlNDeGp3dG8zeU9zQWo5UUNad2FybnFhWG80aHBSd3BTUmpneERYTEJqSzAiLCJtYWMiOiIyYzg5NzY1Y2ZmOThiMDdjMGRhMjZmNTY2YTQwZGM3OGQxNWQ5MGI3MmYyMmE0MDAyMjNiZjhmMWZhM2EwYmE2IiwidGFnIjoiIn0",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost/api/getCommentResponseList/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"getCommentResponseList",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/api/addResponseToComment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "eyJpdiI6Ik15OEVvd0Nxa1dPWU1RMFJCaWQvdmc9PSIsInZhbHVlIjoiQjZ0WldTODlYQ213N2JkbnZRdHU2WWdUdUVkQnh3aGF5M1l1UnlFR2RGRUhwdFlTRnkzN3RIQUxsSXdvcVlpd0FkbG9nS0krU1RrMmdCM0EzV2x1WCszenlyMjk3SEdGVjk4RlJwbTdLeUdBSmRhLzRsWlNZMEJpZHlDVjh5d2ciLCJtYWMiOiJlMTA2YzM0NmM4ZGNmMDgyM2UwODY3ODlhZjk1M2JkYzE5OTNhZjJmZmRkMjNjNGUzYWE1ZmVjYzJkN2RkMmJhIiwidGFnIjoiIn0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"commentId\": \"2\",\r\n    \"responseText\": \"Текст ответа на комментарий 2 в новом ответе.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/addResponseToComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"addResponseToComment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SignIn",
+			"item": [
+				{
+					"name": "http://localhost/sanctum/csrf-cookie",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost/sanctum/csrf-cookie",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"sanctum",
+								"csrf-cookie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "eyJpdiI6IllKSU9mTTJybEZobFNlVzBqU1Z0eHc9PSIsInZhbHVlIjoibUp0ZmZZM2p4UzJRVTlFWFJpMEduTExRR3pDQUQrdjFHaWtPb2V0alZkNmVQUklFY0V5OXlmWXBUM29LVXhvYXlNd2hxalQwL3dmdUxEaUhKaTY4QkU1bUVDM3F1SmlQUHhPcnlmcUh6UTZRQVFiSVVKQ083ZUk3MkxadkgxcnYiLCJtYWMiOiIzMGYwZGU4MjZlMjQxOTRjNGQzZTEzNmRiNDQ2MDEwODM2NWRhZDBlMWNjOTA0NmUzZWNiYjY5MWQ5Nzc5NzU5IiwidGFnIjoiIn0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\" : \"manager\",\r\n    \"password\" : \"er54z4q9\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "eyJpdiI6IjVxUWdvZi91ODM5eGViU3BIdEs2OEE9PSIsInZhbHVlIjoiU05iSVFuVGh0c3dLR1M2WXBmNGh3Sk91S2htei9ldUN1cG1FUGVHd1BnUlA5RHIxbDBydWJabUhCMjloRUZYNmZuTkpSSHdGcmtLZWpjR2pJRGhMMzZxT3k4aG9WMjVURDIvZVBWNkJRQTVsQ3RWZEtFdmdveWt6VGVyaEtrVGkiLCJtYWMiOiIzNzVlMTY1NDI2ZjBjMzY1Mjc0NTczZTRmNDgyMmU2ZjA4YmI5NTdjMzkyMTdmOTk3YzAyMTQ1NTA4N2M0YmVhIiwidGFnIjoiIn0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Common",
+			"item": [
+				{
+					"name": "http://localhost/api/user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Referer",
+								"value": "http://localhost",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Administration",
+			"item": [
+				{
+					"name": "Roles",
+					"item": [
+						{
+							"name": "http://localhost/admin/getRoleList",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "eyJpdiI6IjRoOGQzKy9FbkFHeGhwTU5OdTFQOFE9PSIsInZhbHVlIjoiSml5Z3FJczFrR0tPQTUvUjJieVo0N0ZQek5xWnBzRG5wNjB0RHdHN1R2YXhiMTg3YStoekQyTnpUTXhtcDZzNG5nSVVzVnB5UkFiZWFmbEU3YnMwelE5NHNQOEp4YkRsS1dWNGNzcldMSmFIcTV6OGtqYlVGdjEydlNNQTI5YmkiLCJtYWMiOiIwMmQ2NjAxMWQzYzIxNWZkMjNiODM2ZjU0YWY4MjQ0ODEyOTZlZDk3NWFmOGJmZGQ4M2RmY2E0YjA3MjE5ZWNhIiwidGFnIjoiIn0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost/admin/addPermission",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"admin",
+										"addPermission"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://localhost/admin/updateRole",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "eyJpdiI6IlNuYnIyUzRoN3daODg2bkNqYUJMenc9PSIsInZhbHVlIjoidTNuUE1TeE9XUCtNdGRLRFhOQ0x4UHhSNmRrb3RUU016bzJOaTM4WXVsUmwwQzlibmErOXZmUFFJY1p4UzlmMy9YUGZQYTNvdFNWS1ZJZEFqOXlYeFpnVlFOZ3ZrU3E4dEVkZDN1a2tkUDlaSmNEWkhQRDBwZkpmVUk3U0luNkciLCJtYWMiOiJiMTFiMDM1YjU0Y2NhNWU3NTJhYTJjMTZmYWZjMWQzNDMxZjJiZjI2NGE1NmIzMzE3MjYwZGRhMzM2ZWY0MjhlIiwidGFnIjoiIn0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"roleId\" : \"2\",\r\n    \"roleName\": \"basic-user\",\r\n    \"permissions\" : [\"6\",\"7\",\"8\",\"9\",\"10\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/admin/updateRole",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"admin",
+										"updateRole"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://localhost/admin/setUserRole",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "eyJpdiI6IkV4dlBaQ3ZJeHVSUGxHYjVtUFU3SGc9PSIsInZhbHVlIjoiN0FEY3FFUkhpam9wZmcvcGs4MTBtTFZyV0NHUWZqbXRUcVNXNXZQdEQ3M2wwOVNSd2dKUlRZUzZ6V3ZEbUx2NlhyVFdjenJyR2J1R01KclRncTl6L0pYNFhJbG00VXVoZC9rZTJhOXExYWZqZGVoNTE3RWVOcmtNQW5pa0lFbmciLCJtYWMiOiJlZjY5YjllNjQxNjkwYjViMGE1NjM3ZWNkZGI2YzE1NWUzYTkxY2RiNjBkNzEzNGY5YTUyZGE5NzYxZWIwMWRhIiwidGFnIjoiIn0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\" : \"3\",\r\n    \"roleId\" : \"3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/admin/setUserRole",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"admin",
+										"setUserRole"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Permissions",
+					"item": [
+						{
+							"name": "http://localhost/admin/addPermission",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "eyJpdiI6IkV4dlBaQ3ZJeHVSUGxHYjVtUFU3SGc9PSIsInZhbHVlIjoiN0FEY3FFUkhpam9wZmcvcGs4MTBtTFZyV0NHUWZqbXRUcVNXNXZQdEQ3M2wwOVNSd2dKUlRZUzZ6V3ZEbUx2NlhyVFdjenJyR2J1R01KclRncTl6L0pYNFhJbG00VXVoZC9rZTJhOXExYWZqZGVoNTE3RWVOcmtNQW5pa0lFbmciLCJtYWMiOiJlZjY5YjllNjQxNjkwYjViMGE1NjM3ZWNkZGI2YzE1NWUzYTkxY2RiNjBkNzEzNGY5YTUyZGE5NzYxZWIwMWRhIiwidGFnIjoiIn0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"permissionName\" : \"setUserRole\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/admin/addPermission",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"admin",
+										"addPermission"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://localhost/admin/updatePermission",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "eyJpdiI6IjRoOGQzKy9FbkFHeGhwTU5OdTFQOFE9PSIsInZhbHVlIjoiSml5Z3FJczFrR0tPQTUvUjJieVo0N0ZQek5xWnBzRG5wNjB0RHdHN1R2YXhiMTg3YStoekQyTnpUTXhtcDZzNG5nSVVzVnB5UkFiZWFmbEU3YnMwelE5NHNQOEp4YkRsS1dWNGNzcldMSmFIcTV6OGtqYlVGdjEydlNNQTI5YmkiLCJtYWMiOiIwMmQ2NjAxMWQzYzIxNWZkMjNiODM2ZjU0YWY4MjQ0ODEyOTZlZDk3NWFmOGJmZGQ4M2RmY2E0YjA3MjE5ZWNhIiwidGFnIjoiIn0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"permissionId\" : \"1\",\r\n    \"permissionName\" : \"addResponseToComment\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/admin/updatePermission",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"admin",
+										"updatePermission"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://localhost/admin/getPermissionList",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "eyJpdiI6IjRoOGQzKy9FbkFHeGhwTU5OdTFQOFE9PSIsInZhbHVlIjoiSml5Z3FJczFrR0tPQTUvUjJieVo0N0ZQek5xWnBzRG5wNjB0RHdHN1R2YXhiMTg3YStoekQyTnpUTXhtcDZzNG5nSVVzVnB5UkFiZWFmbEU3YnMwelE5NHNQOEp4YkRsS1dWNGNzcldMSmFIcTV6OGtqYlVGdjEydlNNQTI5YmkiLCJtYWMiOiIwMmQ2NjAxMWQzYzIxNWZkMjNiODM2ZjU0YWY4MjQ0ODEyOTZlZDk3NWFmOGJmZGQ4M2RmY2E0YjA3MjE5ZWNhIiwidGFnIjoiIn0",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost/admin/getPermissionList",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"admin",
+										"getPermissionList"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://localhost/admin/getPermission",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost",
+										"type": "text"
+									},
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "eyJpdiI6IjRoOGQzKy9FbkFHeGhwTU5OdTFQOFE9PSIsInZhbHVlIjoiSml5Z3FJczFrR0tPQTUvUjJieVo0N0ZQek5xWnBzRG5wNjB0RHdHN1R2YXhiMTg3YStoekQyTnpUTXhtcDZzNG5nSVVzVnB5UkFiZWFmbEU3YnMwelE5NHNQOEp4YkRsS1dWNGNzcldMSmFIcTV6OGtqYlVGdjEydlNNQTI5YmkiLCJtYWMiOiIwMmQ2NjAxMWQzYzIxNWZkMjNiODM2ZjU0YWY4MjQ0ODEyOTZlZDk3NWFmOGJmZGQ4M2RmY2E0YjA3MjE5ZWNhIiwidGFnIjoiIn0",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"permissionId\" : \"3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/admin/getPermission",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"admin",
+										"getPermission"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
