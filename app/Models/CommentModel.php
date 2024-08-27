@@ -28,27 +28,15 @@ class CommentModel extends BaseModel
     {
 
         try {
-
             $commentId = $params['commentId'] ?? '';
             $comment = static::find($commentId);
 
-            $user = Auth::user();
-            if ($comment->user_id != $user->id && !$user->hasRole('super-user')) {
-                $this->setError('Данная запись не доступна текущему пользователю.');
-                return false;
-            }
-
-            $responses = CommentResponseModel::select('response_text as responseText', 'comment_response_id as responseId')
+            $comment->respponses = CommentResponseModel::select('response_text as responseText', 'comment_response_id as responseId')
                 ->join('comments_to_comment_responses', 'comment_responses.id', '=', 'comments_to_comment_responses.comment_response_id')
                 ->where('comments_to_comment_responses.comment_id', '=', $commentId)
                 ->get();
 
-            if (empty($responses))
-            {
-                return ['commentId' => $comment->id, 'commentText' => $comment->comment_text];
-            }
-
-            return ['commentId' => $comment->id, 'commentText' => $comment->comment_text, 'responses' => $responses];
+            return $comment;
 
         } catch (Throwable $exception) {
             throw new Exception('Не удалось подготовить запись.', 500);
@@ -56,75 +44,13 @@ class CommentModel extends BaseModel
 
     }
 
-    /**
-     * @throws Exception
-     */
-    public function addComment(array $params = array()): array
+    public function deleteComment($comment)
     {
 
         try {
-            $comment = static::create([
-                'comment_text' => $params['commentText'] ?? '',
-                'user_id' => Auth::user()->id,
-            ]);
-
-            return ['commentId' => $comment->id];
-        } catch (Throwable $exception) {
-            throw new Exception('Не удалось создать запись.', 500);
-        }
-
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function updateComment(array $params = array()): array|bool
-    {
-
-        try {
-            $commentId = $params['commentId'] ?? '';
-            $comment = static::find($commentId);
-
-            $user = Auth::user();
-            if ($comment->user_id != $user->id && !$user->hasRole('super-user')) {
-                $this->setError('Данная запись не доступна текущему пользователю.');
-                return false;
-            }
-
-            $comment->comment_text = $params['commentText'] ?? '';
-
-            if ($comment->isDirty()) {
-                $comment->save();
-            }
-
-            return ['commentId' => $commentId];
-
-        } catch (Throwable $exception) {
-            throw new Exception('Не удалось изменить запись.', 500);
-        }
-
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function deleteComment(array $params = array())
-    {
-
-        try {
-            $commentId = $params['commentId'] ?? '';
-            $comment = static::find($commentId);
-
-            $user = Auth::user();
-            if ($comment->user_id != $user->id && !$user->hasRole('super-user')) {
-                $this->setError('Данная запись не доступна текущему пользователю.');
-                return false;
-            }
-
-            return DB::transaction(function () use ($comment, $commentId) {
-
+            return DB::transaction(function () use ($comment) {
                 $responseData = DB::table('comments_to_comment_responses')
-                    ->where('comment_id', $commentId)
+                    ->where('comment_id', $comment->id)
                     ->first();
 
                 if (empty($responseData)) {
@@ -137,7 +63,7 @@ class CommentModel extends BaseModel
 
             });
         } catch (Throwable $exception) {
-            throw new Exception('Не удалось удалить запись.', 400);
+            return false;
         }
 
     }
@@ -154,33 +80,13 @@ class CommentModel extends BaseModel
                                 ->select()
                                 ->join('comment_responses', 'comments_to_comment_responses.comment_response_id', '=', 'comment_responses.id');
 
-            $commentList = static::select('comments.id as commentId', 'comments.comment_text as commentText', DB::raw('jsonb_object_agg(coalesce(responses.comment_response_id, \'0\'), responses.response_text) as responses'))
+            $commentList = static::select('comments.id as commentId', 'comments.comment_text as commentText', DB::raw('jsonb_build_array(jsonb_build_object( \'responseId\', responses.comment_response_id, \'responseText\', responses.response_text)) as responses'))
                                 ->leftJoinSub($responses, 'responses', function (JoinClause $join) {
                                     $join->on('comments.id', '=', 'responses.comment_id');
                                 })
-                                ->groupBy('comments.id');
+                                ->groupBy('comments.id', 'responses.comment_response_id', 'responses.response_text');
 
-            $commentList = $commentList->paginate(50);
-
-            foreach ($commentList->all() as &$comment) {
-                $responsesList = json_decode($comment->responses, true);
-
-                $responses = [];
-                foreach ($responsesList as $key => $response) {
-                    if (empty($response)) {
-                        continue;
-                    }
-
-                    $responses[] = [
-                        'responseId' => $key,
-                        'responseText' => $response,
-                    ];
-                }
-
-                $comment->responses = $responses;
-            }
-
-            return $commentList;
+            return $commentList->paginate(50);
 
         } catch (Throwable $exception) {
             throw new Exception('Не удалось получить список.', 500);

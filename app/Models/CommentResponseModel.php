@@ -37,16 +37,12 @@ class CommentResponseModel extends BaseModel
                     'user_id' => Auth::user()->id,
                 ]);
 
-                if (empty($response)) {
-                    return new Exception();
-                }
-
                 DB::table('comments_to_comment_responses')->insert([
                     'comment_id' => $params['commentId'] ?? '',
                     'comment_response_id' => $response->id,
                 ]);
 
-                return ['responseId' => $response->id];
+                return $response;
 
             });
         } catch (Throwable $exception) {
@@ -61,20 +57,11 @@ class CommentResponseModel extends BaseModel
     public function getResponseToComment(array $params = array()): object|null|bool
     {
 
-
         try {
-            $response = static::find($params['responseId']);
-
-            $user = Auth::user();
-            if ($response->user_id != $user->id && !$user->hasRole('super-user')) {
-                $this->setError('Данная запись не доступна текущему пользователю.');
-                return false;
-            }
-
             $response = static::select()
                 ->join('comments_to_comment_responses', 'comment_responses.id', '=', 'comments_to_comment_responses.comment_response_id')
                 ->where('comment_responses.id', $params['responseId'])
-                ->where('comment_responses.user_id', Auth::user()->id);
+                ->where('comment_responses.user_id', $params['userId']);
 
             return DB::table('comments')
                 ->select('response.comment_response_id as responseId', 'response.response_text as responseText', 'comments.id as commentId', 'comments.comment_text as commentText')
@@ -91,51 +78,14 @@ class CommentResponseModel extends BaseModel
     /**
      * @throws Exception
      */
-    public function updateResponseToComment(array $params = array())
+    public function deleteResponseToComment($response)
     {
 
         try {
-            $response = static::find($params['responseId']);
-
-            $user = Auth::user();
-            if ($response->user_id != $user->id && !$user->hasRole('super-user')) {
-                $this->setError('Данная запись не доступна текущему пользователю.');
-                return false;
-            }
-
-            $response->response_text = $params['responseText'];
-
-            if ($response->isDirty()) {
-                $response->save();
-            }
-
-            return ['responseId' => $params['responseId']];
-
-        } catch (Throwable $exception) {
-            throw new Exception('Не удалось изменить запись.', 500);
-        }
-
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function deleteResponseToComment(array $params = array())
-    {
-
-        try {
-            $response = static::find($params['responseId']);
-
-            $user = Auth::user();
-            if ($response->user_id != $user->id && !$user->hasRole('super-user')) {
-                $this->setError('Данная запись не доступна текущему пользователю.');
-                return false;
-            }
-
-            return DB::transaction(function () use ($response, $params) {
+            return DB::transaction(function () use ($response) {
 
                 DB::table('comments_to_comment_responses')
-                    ->where('comment_response_id', $params['responseId'])
+                    ->where('comment_response_id', $response->id)
                     ->delete();
 
                 return (bool) $response->delete();
@@ -151,13 +101,13 @@ class CommentResponseModel extends BaseModel
     /**
      * @throws Exception
      */
-    public function getCommentResponseList(): LengthAwarePaginator
+    public function getCommentResponseList(string $userId): LengthAwarePaginator
     {
 
         try {
             $response = static::select()
                 ->join('comments_to_comment_responses', 'comment_responses.id', '=', 'comments_to_comment_responses.comment_response_id')
-                ->where('comment_responses.user_id', Auth::user()->id);
+                ->where('comment_responses.user_id', $userId);
 
             return DB::table('comments')
                 ->select('response.comment_response_id as responseId', 'response.response_text as responseText', 'comments.id as commentId', 'comments.comment_text as commentText')
