@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\ApiControllers;
 
-use App\Models\CommentModel;
+use App\Contracts\CommentResponses\CommentResponsesInterface;
+use App\Contracts\Comments\CommentsInterface;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\CommentResponseModel;
 
 class GuestBookController extends Controller
 {
@@ -16,62 +16,65 @@ class GuestBookController extends Controller
      *
      * @throws Exception
      */
-    public function addResponseToComment(Request $request): array
+    public function addResponseToComment(Request $request, CommentResponsesInterface $service): array
     {
 
-        $validated = $request->validate([
-            'commentId' => ['required', 'string'],
-            'responseText' => ['required', 'string', 'min:1', 'max:255'],
-        ]);
+        $service->setData(
+            $request->validate([
+                'commentId' => ['required', 'string'],
+                'responseText' => ['required', 'string', 'min:1', 'max:255'],
+            ])
+        );
 
-        return $this->getApiResponse((new CommentResponseModel())->addResponseToComment($validated));
+        $responseId = $service->addResponseToComment();
+        if (empty($responseId)) {
+            return $service->getApiError();
+        }
+
+        return $service->getApiResponse(['responseId' => $responseId]);
 
     }
 
     /**
      * Получение ответа на комментарий с самим комментарием
-     *
-     * @throws Exception
      */
-        public function getResponseToComment(Request $request): array
-        {
+    public function getResponseToComment(Request $request, CommentResponsesInterface $service): array
+    {
 
-        $validated = $request->validate([
-            'responseId' => ['required', 'string'],
-        ]);
+        $service->setData(
+            $request->validate([
+                'responseId' => ['required', 'string'],
+            ])
+        );
 
-        $model = new CommentResponseModel();
-        $response = $model->getResponseToComment($validated);
-
-        if (!$response) {
-            return $this->getApiResponse(false, $model->getError());
+        $response = $service->getResponseToComment();
+        if (empty($response)) {
+            return $service->getApiError();
         }
 
-        return $this->getApiResponse($response);
+        return $service->getApiResponse($response);
 
     }
 
     /**
      * Изменение комментария
-     *
-     * @throws Exception
      */
-    public function updateResponseToComment(Request $request): array
+    public function updateResponseToComment(Request $request, CommentResponsesInterface $service): array
     {
 
-        $validated = $request->validate([
-            'responseId' => ['required', 'string'],
-            'responseText' => ['required', 'string', 'min:1', 'max:255'],
-        ]);
+        $service->setData(
+            $request->validate([
+                'responseId' => ['required', 'string'],
+                'responseText' => ['required', 'string', 'min:1', 'max:255'],
+            ])
+        );
 
-        $model = new CommentResponseModel();
-        $response = $model->updateResponseToComment($validated);
-
-        if (!$response) {
-            return $this->getApiResponse(false, $model->getError());
+        $responseId = $service->updateResponseToComment();
+        if (empty($response)) {
+            return $service->getApiError();
         }
 
-        return $this->getApiResponse($response);
+        return $service->getApiResponse(['responseId' => $responseId]);
 
     }
 
@@ -80,118 +83,119 @@ class GuestBookController extends Controller
      *
      * @throws Exception
      */
-    public function deleteResponseToComment(Request $request): array
+    public function deleteResponseToComment(Request $request, CommentResponsesInterface $service): array
     {
 
-        $validated = $request->validate([
-            'responseId' => ['required', 'string'],
-        ]);
+        $service->setData(
+            $request->validate([
+                'responseId' => ['required', 'string'],
+            ])
+        );
 
-        $model = new CommentResponseModel();
-        $response = $model->deleteResponseToComment($validated);
-
-        if (!$response) {
-            return $this->getApiResponse(false, $model->getError());
+        if (!$service->deleteResponseToComment()) {
+            return $service->getApiError();
         }
 
-        return $this->getApiResponse($response);
+        return $service->getApiResponse();
 
     }
 
     /**
      * Получить список ответов с комментарием
-     *
-     * @throws Exception
      */
-    public function getCommentResponseList(): array
+    public function getCommentResponseList(CommentResponsesInterface $service): array
     {
 
-        return $this->getApiResponse((new CommentResponseModel())->getCommentResponseList());
+        $list = $service->getCommentResponseList();
+        if (empty($list)) {
+            return $service->getApiError();
+        }
+
+        return $service->getApiResponse($list);
 
     }
 
     /**
-     * Получение еомментария
-     *
-     * @throws Exception
+     * Получение комментария
      */
-    public function getComment(Request $request): array
+    public function getComment(Request $request, CommentsInterface $service): array
     {
 
-        $validated = $request->validate([
-            'commentId' => ['required', 'string'],
-        ]);
+        $service->setData(
+            $request->validate([
+                'commentId' => ['required', 'string'],
+            ])
+        );
 
-        $model = new CommentModel();
-        $comment = $model->getComment($validated);
-
-        if (!$comment) {
-            return $this->getApiResponse(false, $model->getError());
+        $comment = $service->getComment();
+        if (empty($comment)) {
+            return $service->getApiError();
         }
 
-        return $this->getApiResponse($comment);
+        return $service->getApiResponse($comment);
 
     }
 
     /**
      * Добавление комментария
-     *
-     * @throws Exception
      */
-    public function addComment(Request $request): array
+    public function addComment(Request $request, CommentsInterface $service): array
     {
 
-        $validated = $request->validate([
-            'commentText' => ['required', 'string', 'min:1', 'max:255'],
-        ]);
+        $service->setData(
+            $request->validate([
+                'commentText' => ['required', 'string', 'min:1', 'max:255'],
+            ])
+        );+
 
-        return $this->getApiResponse((new CommentModel())->addComment($validated));
+        $commentId = $service->addComment();
+        if (empty($commentId)) {
+            return $service->getApiError();
+        }
+
+        return $service->getApiResponse(['commentId' => $commentId]);
 
     }
 
     /**
      * Изменение комментария
-     *
-     * @throws Exception
      */
-    public function updateComment(Request $request): array
+    public function updateComment(Request $request, CommentsInterface $service): array
     {
 
-        $validated = $request->validate([
-            'commentId' => ['required', 'string'],
-            'commentText' => ['required', 'string', 'min:1', 'max:255'],
-        ]);
+        $service->setData(
+            $request->validate([
+                'commentId' => ['required', 'string'],
+                'commentText' => ['required', 'string', 'min:1', 'max:255'],
+            ])
+        );
 
-        $model = new CommentModel();
-        $commentId = $model->updateComment($validated);
-
-        if (!$commentId) {
-            return $this->getApiResponse(false, $model->getError());
+        $commentId = $service->updateComment();
+        if (empty($commentId)) {
+            return $service->getApiError();
         }
 
-        return $this->getApiResponse($commentId);
+        return $service->getApiResponse(['commentId' => $commentId]);
 
     }
 
     /**
      * Удаление комментария
-     *
-     * @throws Exception
      */
-    public function deleteComment(Request $request): array
+    public function deleteComment(Request $request, CommentsInterface $service): array
     {
 
-        $validated = $request->validate([
-            'commentId' => ['required', 'string'],
-        ]);
+        $service->setData(
+            $request->validate([
+                'commentId' => ['required', 'string'],
+            ])
+        );
 
-        $model = new CommentModel();
-
-        if (!$model->deleteComment($validated)) {
-            return $this->getApiResponse(false, $model->getError());
+        if (!$service->deleteComment()) {
+            return $service->getApiError();
         }
 
-        return $this->getApiResponse(true);
+        return $service->getApiResponse();
 
     }
 
@@ -200,10 +204,15 @@ class GuestBookController extends Controller
      *
      * @throws Exception
      */
-    public function getCommentList(): array
+    public function getCommentList(CommentsInterface $service): array
     {
 
-        return $this->getApiResponse((new CommentModel())->getCommentList());
+        $list = $service->getCommentList();
+        if (empty($list)) {
+            return $service->getApiError();
+        }
+
+        return $service->getApiResponse($list);
 
     }
 
