@@ -9,10 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class CreateManagerSeeder extends Seeder
+class CreateBasicUserSeeder extends Seeder
 {
 
-    const MANAGER_PERMISSIONS = ['getResponseToComment', 'addResponseToComment', 'updateResponseToComment', 'deleteResponseToComment', 'getCommentResponseList'];
     const PERMISSIONS_BASE_USER = ['addComment', 'updateComment', 'deleteComment', 'getComment', 'getCommentList'];
 
     /**
@@ -22,18 +21,19 @@ class CreateManagerSeeder extends Seeder
     {
 
         Role::create([
-            'name' => 'manager'
+            'name' => 'basic-user'
         ]);
 
         $user = User::create([
-            'name' => 'manager',
-            'login' => 'manager',
+            'name' => 'base-user',
+            'login' => 'base_user',
             'password' => Hash::make('password'),
         ]);
 
-        $user->assignRole('manager');
-        $permissions = Permission::whereIn('name', array_merge(static::PERMISSIONS_BASE_USER, static::MANAGER_PERMISSIONS))->get();
+        $user->assignRole('basic-user');
+        $permissions = Permission::whereIn('name', static::PERMISSIONS_BASE_USER)->get();
         $user->syncPermissions($permissions);
+
 
     }
 }

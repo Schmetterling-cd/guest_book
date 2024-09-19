@@ -3,42 +3,46 @@
 namespace App\Services\Comments;
 
 use App\Contracts\Comments\CommentsInterface;
-use App\Models\CommentModel;
+use App\Http\Resources\CommentResource;
+use App\Models\Comment;
 use App\Services\Service;
-use Illuminate\Pagination\LengthAwarePaginator;
-
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CommentsService extends Service implements CommentsInterface
 {
 
-    public function getComment(): array|false
+    protected const LIST_CACHE_KEY = 'comment_list';
+
+    public function getComment(): JsonResource|bool
     {
 
-        $model = $this->getModel(new CommentModel());
+        $model = $this->getModel(new Comment());
         if (!$model) {
             return false;
         }
 
-        $comment = $model->getComment($this->_data);
+        $comment = $model::with(['responses'])->find($this->_data['commentId']);
         if (!$comment) {
             $this->setError('Не удалось получить запись.');
             return false;
         }
 
-        $user = $this->getUser();
-        if ($comment->user_id != $user->id && !$user->hasRole('super-user')) {
+        if (Gate::inspect('get', $comment)->denied()) {
             $this->setError('Данная запись не доступна текущему пользователю.');
             return false;
         }
 
-        return ['commentId' => $comment->id, 'commentText' => $comment->comment_text, 'responses' => $comment->responses];
+        return new CommentResource($comment);
 
     }
 
     public function addComment(): int|bool
     {
 
-        $model = $this->getModel(new CommentModel());
+        $model = $this->getModel(new Comment());
         if (!$model) {
             return false;
         }
@@ -61,7 +65,7 @@ class CommentsService extends Service implements CommentsInterface
     public function updateComment(): int|bool
     {
 
-        $model = $this->getModel(new CommentModel());
+        $model = $this->getModel(new Comment());
         if (!$model) {
             return false;
         }
@@ -72,8 +76,7 @@ class CommentsService extends Service implements CommentsInterface
             return false;
         }
 
-        $user = $this->getUser();
-        if ($comment->user_id != $user->id && !$user->hasRole('super-user')) {
+        if (Gate::inspect('update', $comment)->denied()) {
             $this->setError('Данная запись не доступна текущему пользователю.');
             return false;
         }
@@ -89,7 +92,7 @@ class CommentsService extends Service implements CommentsInterface
 
     public function deleteComment(): bool
     {
-        $model = $this->getModel(new CommentModel());
+        $model = $this->getModel(new Comment());
         if (!$model) {
             return false;
         }
@@ -100,44 +103,39 @@ class CommentsService extends Service implements CommentsInterface
             return false;
         }
 
-        $user = $this->getUser();
-        if ($comment->user_id != $user->id && !$user->hasRole('super-user')) {
+        if (Gate::inspect('delete', $comment)->denied()) {
             $this->setError('Данная запись не доступна текущему пользователю.');
             return false;
         }
 
-        return $model->deleteComment($comment);
+        return $comment->responses()->delete() && $comment->delete() && $comment->commentsToCommentResponses()->delete();
 
     }
 
-    public function getCommentList(): LengthAwarePaginator|bool
+    public function getCommentList(): AnonymousResourceCollection|bool
     {
 
-        $model = $this->getModel(new CommentModel());
+        $user = $this->getUser();
+        $cacheKey = static::LIST_CACHE_KEY . '_' . $user->id;
+
+        if ($list = Cache::get($cacheKey)) {
+            return $list;
+        }
+
+        $model = $this->getModel(new Comment());
         if (!$model) {
             return false;
         }
 
-        $list = $model->getCommentList();
-        if ($list === false) {
+        $list = $model->with(['responses'])->paginate(50);
+        if ($list === null) {
             $this->setError('Не удалось получить список.');
             return false;
         }
 
-        foreach ($list->all() as &$comment) {
-            $responsesList = json_decode($comment->responses, true);
+        $list = CommentResource::collection($list);
 
-            $responses = [];
-            foreach ($responsesList as $response) {
-                if (empty($response) || empty($response['responseId']) || empty($response['responseText'])) {
-                    continue;
-                }
-
-                $responses[] = $response;
-            }
-
-            $comment->responses = $responses;
-        }
+        Cache::add($cacheKey, $list, static::CACHE_EXPIRATION_TIME);
 
         return $list;
 

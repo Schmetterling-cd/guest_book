@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\CommentModel;
-use App\Models\CommentResponseModel;
+use App\Models\Comment;
+use App\Models\CommentResponse;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('comments_to_comment_responses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(CommentModel::class);
-            $table->foreignIdFor(CommentResponseModel::class);
+            $table->foreignIdFor(Comment::class);
+            $table->foreignIdFor(CommentResponse::class);
             $table->timestamps();
         });
     }

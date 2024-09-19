@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Contracts\Administration\Permission\PermissionInterface;
+use App\Contracts\Administration\Role\RoleInterface;
 use App\Contracts\CommentResponses\CommentResponsesInterface;
 use App\Contracts\Comments\CommentsInterface;
+use App\Services\Administration\Permission\PermissionService;
+use App\Services\Administration\Role\RoleService;
 use App\Services\CommentResponses\CommentResponseService;
 use App\Services\Comments\CommentsService;
 use Illuminate\Support\Facades\Gate;
@@ -24,6 +28,14 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(CommentResponsesInterface::class, function ($app) {
             return new CommentResponseService();
+        });
+
+        $this->app->bind(RoleInterface::class, function ($app) {
+            return new RoleService();
+        });
+
+        $this->app->bind(PermissionInterface::class, function ($app) {
+            return new PermissionService();
         });
 
     }

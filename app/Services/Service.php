@@ -13,6 +13,9 @@ abstract class Service
     protected const STATUS_ERROR = 'ERROR';
     protected const STATUS_OK = 'OK';
 
+    protected const LIST_CACHE_KEY = '';
+    protected const CACHE_EXPIRATION_TIME = 3600;
+
     protected array $_data = [];
     protected string $_error = '';
     protected object $_models;
@@ -52,7 +55,7 @@ abstract class Service
         }
 
         if (property_exists($this->_models, $modelName)) {
-            return $this->_models->{$modelName};
+            return $this->_models->$modelName;
         }
 
         if (class_exists($modelNameWithPath)) {

@@ -31,7 +31,7 @@ class GuestBookController extends Controller
             return $service->getApiError();
         }
 
-        return $service->getApiResponse(['responseId' => $responseId]);
+        return $service->getApiResponse(['id' => $responseId]);
 
     }
 
@@ -74,7 +74,7 @@ class GuestBookController extends Controller
             return $service->getApiError();
         }
 
-        return $service->getApiResponse(['responseId' => $responseId]);
+        return $service->getApiResponse(['id' => $responseId]);
 
     }
 
@@ -123,7 +123,7 @@ class GuestBookController extends Controller
 
         $service->setData(
             $request->validate([
-                'commentId' => ['required', 'string'],
+                'commentId' => ['required', 'string', 'exists:comments,id'],
             ])
         );
 
@@ -153,7 +153,7 @@ class GuestBookController extends Controller
             return $service->getApiError();
         }
 
-        return $service->getApiResponse(['commentId' => $commentId]);
+        return $service->getApiResponse(['id' => $commentId]);
 
     }
 
@@ -165,7 +165,7 @@ class GuestBookController extends Controller
 
         $service->setData(
             $request->validate([
-                'commentId' => ['required', 'string'],
+                'commentId' => ['required', 'string', 'exists:comments,id'],
                 'commentText' => ['required', 'string', 'min:1', 'max:255'],
             ])
         );
@@ -175,7 +175,7 @@ class GuestBookController extends Controller
             return $service->getApiError();
         }
 
-        return $service->getApiResponse(['commentId' => $commentId]);
+        return $service->getApiResponse(['id' => $commentId]);
 
     }
 
@@ -187,7 +187,7 @@ class GuestBookController extends Controller
 
         $service->setData(
             $request->validate([
-                'commentId' => ['required', 'string'],
+                'commentId' => ['required', 'string', 'exists:comments,id'],
             ])
         );
 
