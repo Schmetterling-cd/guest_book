@@ -49,4 +49,16 @@ class Comment extends Model
 
     }
 
+    protected static function boot()
+    {
+
+        parent::boot();
+
+        static::deleting(function($comment) {
+            $comment->responses()->delete();
+            $comment->commentsToCommentResponses()->delete();
+        });
+
+    }
+
 }

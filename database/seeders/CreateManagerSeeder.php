@@ -26,7 +26,6 @@ class CreateManagerSeeder extends Seeder
         ]);
 
         $user = User::create([
-            'name' => 'manager',
             'login' => 'manager',
             'password' => Hash::make('password'),
         ]);

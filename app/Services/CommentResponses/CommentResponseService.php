@@ -118,7 +118,7 @@ class CommentResponseService extends Service implements CommentResponsesInterfac
             return false;
         }
 
-        return $response->commentsToCommentResponses()->delete() && $response->delete();
+        return $response->delete();
 
     }
 

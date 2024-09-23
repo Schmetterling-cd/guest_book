@@ -13,6 +13,7 @@ class Permission extends SpatiePermission
     protected $fillable = [
         'id',
         'name',
+        'guard_name',
         'created_at',
         'updated_at',
     ];
@@ -28,6 +29,18 @@ class Permission extends SpatiePermission
     {
 
         return $this->hasMany(ModelHasPermission::class, 'permission_id', 'id');
+
+    }
+
+    protected static function boot()
+    {
+
+        parent::boot();
+
+        static::deleting(function($permission) {
+            $permission->roleHasPermission()->delete();
+            $permission->modelHasPermission()->delete();
+        });
 
     }
 

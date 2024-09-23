@@ -24,6 +24,7 @@ class PermissionService extends Service implements PermissionInterface
         }
 
         $permission = $model::find($this->_data['permissionId']);
+        $a = Gate::inspect('get', $permission)->denied();
         if (Gate::inspect('get', $permission)->denied()) {
             $this->setError('Данная запись не доступна текущему пользователю.');
             return false;
@@ -106,7 +107,7 @@ class PermissionService extends Service implements PermissionInterface
             return false;
         }
 
-        return $permission->roleHasPermission()->delete() && $permission->modelHasPermission()->delete() && $permission->delete();
+        return $permission->delete();
 
     }
 

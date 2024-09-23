@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Administration\AdministrationController;
+use App\Http\Controllers\ApiControllers\Users\UserController;
 use App\Policies\PermissionPolicy;
 use App\Policies\RolePolicy;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,10 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
     Route::get('/deletePermission', [AdministrationController::class, 'deletePermission'])->middleware('can:' . PermissionPolicy::PERMISSION_DELETE);
 
     Route::post('/setUserRole', [AdministrationController::class, 'setUserRole'])->middleware('can:' . RolePolicy::PERMISSION_SET_ROLE);
+
+	Route::post('/addUser', [UserController::class, 'addUser'])->middleware('can:' . RolePolicy::PERMISSION_SET_ROLE);
+	Route::delete('/deleteUser', [UserController::class, 'deleteUser'])->middleware('can:' . RolePolicy::PERMISSION_SET_ROLE);
+	Route::put('/deleteUser', [UserController::class, 'updateUser'])->middleware('can:' . RolePolicy::PERMISSION_SET_ROLE);
 
 });
 

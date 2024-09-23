@@ -25,7 +25,6 @@ class CreateBasicUserSeeder extends Seeder
         ]);
 
         $user = User::create([
-            'name' => 'base-user',
             'login' => 'base_user',
             'password' => Hash::make('password'),
         ]);

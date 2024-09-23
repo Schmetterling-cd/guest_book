@@ -108,7 +108,7 @@ class CommentsService extends Service implements CommentsInterface
             return false;
         }
 
-        return $comment->responses()->delete() && $comment->delete() && $comment->commentsToCommentResponses()->delete();
+        return $comment->delete();
 
     }
 

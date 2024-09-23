@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Model;
+use App\Contracts\Common\ServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use stdClass;
 
-abstract class Service
+abstract class Service implements ServiceInterface
 {
 
     protected const STATUS_ERROR = 'ERROR';

@@ -99,7 +99,7 @@ class RoleService extends Service implements RoleInterface
             return false;
         }
 
-        return $role->roleHasPermission()->delete() && $role->delete();
+        return $role->delete();
 
     }
 

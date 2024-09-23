@@ -17,4 +17,15 @@ class Role extends SpatieRole
 
     }
 
+    protected static function boot()
+    {
+
+        parent::boot();
+
+        static::deleting(function($role) {
+            $role->roleHasPermission()->delete();
+        });
+
+    }
+
 }

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -50,5 +52,31 @@ class User extends Authenticatable
         return 'sanctum';
 
     }
+
+	public function modelHasPermission(): HasMany
+	{
+
+		return $this->hasMany(ModelHasPermission::class, 'model_id', 'id');
+
+	}
+
+	public function modelHasRoles(): HasMany
+	{
+
+		return $this->hasMany(ModelHasPermission::class, 'model_id', 'id');
+
+	}
+
+	protected static function boot()
+	{
+
+		parent::boot();
+
+		static::deleting(function($user) {
+			$user->modelHasPermission()->delete();
+			$user->modelHasRoles()->delete();
+		});
+
+	}
 
 }
